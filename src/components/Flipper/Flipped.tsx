@@ -9,7 +9,7 @@ import { FlipContext } from "./FlipContext";
 
 export interface FlippedProps {
   children: React.ReactElement;
-  innerRef: React.RefObject<HTMLElement>;
+  innerRef?: React.RefObject<HTMLElement>;
 }
 
 function Flipped({ children, innerRef }: FlippedProps) {

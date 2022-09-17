@@ -17,6 +17,9 @@ const Demo1 = () => {
 
   const lastRectRef = useRef<Map<HTMLElement, DOMRect>>(new Map());
 
+  // console.log(listRef, "listRef");
+  // console.log(lastRectRef, "listRectRef");
+
   useLayoutEffect(() => {
     const currentRectMap = createChildElementRectMap(listRef.current);
     lastRectRef.current.forEach((prevRect, node) => {

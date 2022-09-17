@@ -27,6 +27,8 @@ export default function Flipper({
     },
   });
 
+  // console.log(fnRef, "fnRef");
+
   useMemo(() => {
     lastRectRef.current.forEach((item) => {
       item.rect = item.node.getBoundingClientRect();
