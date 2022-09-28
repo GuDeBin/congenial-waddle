@@ -86,4 +86,25 @@ export const useSortProperty = ({
       item.index = hoverIndex;
     },
   });
+
+  const [{ isDragging }, drag, dragPreview] = useDrag({
+    type: itemType,
+    canDrag,
+    item: () => {
+      return { id, index };
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const opacity = isDragging ? 0 : undefined;
+
+  return {
+    drag,
+    drop,
+    dragPreview,
+    style: { opacity },
+    handlerId,
+  };
 };
