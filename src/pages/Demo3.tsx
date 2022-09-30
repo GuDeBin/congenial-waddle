@@ -58,6 +58,23 @@ const Demo3 = () => {
     });
   }, []);
 
+  return (
+    <Flipper flipKey={data}>
+      <ListBox title="拖拽排序">
+        <SortBox>
+          {data.map((item, index) => (
+            <DragSortItem
+              key={item.id}
+              item={item}
+              index={index}
+              onMove={handleMove}
+            />
+          ))}
+        </SortBox>
+      </ListBox>
+    </Flipper>
+  );
+
   interface DragSortItemProps {
     item: {
       id: number;
@@ -87,23 +104,6 @@ const Demo3 = () => {
       </Flipped>
     );
   }
-
-  return (
-    <Flipper flipKey={data}>
-      <ListBox title="拖拽排序">
-        <SortBox>
-          {data.map((item, index) => (
-            <DragSortItem
-              key={item.id}
-              item={item}
-              index={index}
-              onMove={handleMove}
-            />
-          ))}
-        </SortBox>
-      </ListBox>
-    </Flipper>
-  );
 };
 
 export default Demo3;
