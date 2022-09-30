@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Flipped, Flipper } from "../components/Flipper";
 import { ListBox, SortBox, SortItem } from "./components/doc-components";
 import { useSortProperty } from "./hooks/useSortProperty";
@@ -48,4 +48,62 @@ const initialData = [
 
 const Demo3 = () => {
   const [data, setData] = useState(initialData);
+
+  const handleMove = useCallback((dragIndex: number, hoverIndex: number) => {
+    setData((prev) => {
+      const next = prev.slice();
+      next.splice(dragIndex, 1);
+      next.splice(hoverIndex, 0, prev[dragIndex]);
+      return next;
+    });
+  }, []);
+
+  interface DragSortItemProps {
+    item: {
+      id: number;
+      text: string;
+    };
+    index: number;
+    onMove: (dragIndex: number, hoverIndex: number) => void;
+  }
+
+  function DragSortItem({ item, index, onMove }: DragSortItemProps) {
+    const dropRef = React.useRef<HTMLDivElement>(null);
+
+    const { drag, drop, style } = useSortProperty({
+      id: item.id,
+      itemType: "Fruit",
+      index,
+      onMove,
+      dropRef,
+      canDrag: true,
+    });
+
+    drag(drop(dropRef));
+
+    return (
+      <Flipped innerRef={dropRef}>
+        <SortItem style={style}>{item.text}</SortItem>
+      </Flipped>
+    );
+  }
+
+  return (
+    <Flipper flipKey={data}>
+      <ListBox title="拖拽排序">
+        <SortBox>
+          {data.map((item, index) => (
+            <DragSortItem
+              key={item.id}
+              item={item}
+              index={index}
+              onMove={handleMove}
+            />
+          ))}
+        </SortBox>
+      </ListBox>
+    </Flipper>
+  );
 };
+
+export default Demo3;
